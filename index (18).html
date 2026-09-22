@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COTTONS — Wholesale Bedding &amp; Textile Supply</title>
+<meta name="description" content="COTTONS supplies bedding and textiles to wholesalers, retailers and online sellers worldwide, with UK stock held in Ilford and direct manufacturing in Pakistan.">
+<link rel="canonical" href="https://cottons.site/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="COTTONS">
+<meta property="og:title" content="COTTONS — Wholesale Bedding &amp; Textile Supply">
+<meta property="og:description" content="UK stock in Ilford. Direct manufacturing in Pakistan. Wholesale bedding and textiles supplied worldwide.">
+<meta property="og:url" content="https://cottons.site/">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* ============================================================
+   1. DESIGN TOKENS
+   These custom properties are the single source of truth for
+   colour, type, spacing and breakpoints. Every component below
+   is built from these — nothing is hard-coded.
+   ============================================================ */
+:root{
+  /* colour: warm neutrals + one restrained taupe accent */
+  --c-bg:        #FAF8F4;   /* warm off-white, page background */
+  --c-bg-alt:    #F1ECE3;   /* soft beige, alternate section panels */
+  --c-surface:   #FFFFFF;   /* card / raised surface */
+  --c-ink:       #26221D;   /* charcoal, primary text */
+  --c-ink-soft:  #5B564E;   /* softened charcoal, secondary text */
+  --c-line:      #DDD4C4;   /* hairline borders/dividers */
+  --c-line-soft: #EAE3D6;   /* lighter hairline, on dark-ish panels */
+  --c-accent:      #2F5A6B; /* deep indigo-teal — primary accent (buttons, links, CTA band) */
+  --c-accent-dark: #21414E; /* hover state for the accent */
+  --c-accent-warm: #BD6A34; /* muted rust — small, deliberate second accent (logo mark, hover highlights) */
+  --c-accent-ink:#FFFFFF;
+  --c-whatsapp:  #25D366;   /* WhatsApp brand green, used only for the WhatsApp entry points */
+  --c-whatsapp-dark:#1DA851;
+
+  /* type */
+  --f-display: 'Fraunces', Georgia, serif;
+  --f-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --fs-h1: clamp(2.1rem, 1.6rem + 2vw, 3.4rem);
+  --fs-h2: clamp(1.6rem, 1.35rem + 1.1vw, 2.3rem);
+  --fs-h3: 1.25rem;
+  --fs-body: 1rem;
+  --fs-small: 0.875rem;
+  --lh-tight: 1.15;
+  --lh-body: 1.6;
+
+  /* spacing scale */
+  --sp-1: 0.5rem;
+  --sp-2: 1rem;
+  --sp-3: 1.5rem;
+  --sp-4: 2.5rem;
+  --sp-5: 4rem;
+  --sp-6: 6rem;
+
+  /* layout */
+  --container-w: 1200px;
+  --radius: 3px;         /* near-square corners: precise, woven, not "app-card" rounded */
+  --header-h: 84px;
+
+  /* breakpoints (referenced in comments; media queries use literal px) */
+  --bp-sm: 480px;
+  --bp-md: 768px;
+  --bp-lg: 1024px;
+  --bp-xl: 1280px;
+}
+
+@media (max-width: 768px){
+  :root{ --header-h: 64px; }
+}
+
+/* ============================================================
+   2. RESET / BASE
+   ============================================================ */
+*, *::before, *::after{ box-sizing: border-box; }
+html{ scroll-behavior: smooth; }
+body{
+  margin: 0;
+  font-family: var(--f-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--c-ink);
+  background: var(--c-bg);
+  -webkit-font-smoothing: antialiased;
+}
+img{ max-width: 100%; display: block; }
+a{ color: inherit; text-decoration: none; }
+ul{ margin: 0; padding: 0; list-style: none; }
+button{ font: inherit; cursor: pointer; }
+
+:focus-visible{
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+/* ============================================================
+   3. TYPOGRAPHY SYSTEM
+   ============================================================ */
+h1, h2, h3, .font-display{
+  font-family: var(--f-display);
+  font-weight: 500;
+  line-height: var(--lh-tight);
+  color: var(--c-ink);
+  margin: 0;
+}
+h1{ font-size: var(--fs-h1); font-weight: 400; }
+h2{ font-size: var(--fs-h2); }
+h3{ font-size: var(--fs-h3); font-weight: 600; }
+p{ margin: 0 0 var(--sp-2); max-width: 62ch; color: var(--c-ink-soft); }
+.eyebrow-none{ /* placeholder anchor: intentionally no tracked-out label style used site-wide */ }
+
+/* ============================================================
+   4. BUTTON SYSTEM
+   ============================================================ */
+.btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-1);
+  padding: 0.85rem 1.6rem;
+  font-family: var(--f-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  white-space: nowrap;
+  transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+}
+.btn-primary{
+  background: var(--c-accent);
+  color: #FFFFFF;
+  border-color: var(--c-accent);
+}
+.btn-primary:hover{ background: var(--c-accent-dark); border-color: var(--c-accent-dark); }
+.btn-secondary{
+  background: transparent;
+  color: var(--c-ink);
+  border-color: var(--c-ink);
+}
+.btn-secondary:hover{ background: var(--c-ink); color: var(--c-bg); }
+.btn-block{ width: 100%; }
+
+/* icon-only button — used for the header WhatsApp entry point */
+.btn-icon{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background-color 150ms ease, transform 150ms ease;
+}
+.btn-icon svg{ width: 20px; height: 20px; }
+.btn-whatsapp{ background: var(--c-whatsapp); color: #FFFFFF; }
+.btn-whatsapp:hover{ background: var(--c-whatsapp-dark); }
+
+.btn-catalog{
+  background: var(--c-accent-warm);
+  color: #FFFFFF;
+  border-color: var(--c-accent-warm);
+}
+.btn-catalog:hover{ background: #9C5527; border-color: #9C5527; }
+
+/* ============================================================
+   5. CONTAINER / GRID SYSTEM
+   ============================================================ */
+.container{
+  width: 100%;
+  max-width: var(--container-w);
+  margin-inline: auto;
+  padding-inline: var(--sp-3);
+}
+@media (max-width: 480px){
+  .container{ padding-inline: 1rem; }
+}
+.grid{ display: grid; gap: var(--sp-3); }
+.grid-2{ grid-template-columns: repeat(2, 1fr); }
+.grid-3{ grid-template-columns: repeat(3, 1fr); }
+.grid-4{ grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 1024px){
+  .grid-4{ grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px){
+  .grid-2, .grid-3, .grid-4{ grid-template-columns: 1fr; }
+}
+
+.section{ padding-block: var(--sp-6); }
+.section-alt{ background: var(--c-bg-alt); }
+@media (max-width: 768px){
+  .section{ padding-block: var(--sp-5); }
+}
+
+/* ============================================================
+   6. HEADER / NAVIGATION COMPONENT
+   ============================================================ */
+.site-header{
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  min-height: var(--header-h);
+  padding-block: 0.75rem;
+  display: flex;
+  align-items: center;
+  background: rgba(250, 248, 244, 0.92);
+  backdrop-filter: saturate(140%) blur(6px);
+  border-bottom: 1px solid var(--c-line);
+}
+.site-header .container{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+.logo{
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--f-display);
+  font-size: 1.5rem;
+  letter-spacing: 0.02em;
+  font-weight: 500;
+  color: var(--c-ink);
+}
+.logo-mark{ width: 30px; height: 30px; flex-shrink: 0; }
+.footer-brand .logo-mark{ width: 26px; height: 26px; }
+
+@media (max-width: 768px){
+  .logo{ font-size: 1.2rem; gap: 0.4rem; }
+  .logo-mark{ width: 24px; height: 24px; }
+}
+
+.header-cta{ display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; justify-content: flex-end; }
+.header-cta .btn{ padding: 0.7rem 1.3rem; font-size: 0.875rem; }
+
+@media (max-width: 640px){
+  .site-header .container{ flex-wrap: wrap; row-gap: 0.6rem; }
+  .header-cta{ width: 100%; justify-content: stretch; }
+  .header-cta .btn{ flex: 1 1 0; padding: 0.7rem 0.5rem; font-size: 0.8rem; text-align: center; }
+}
+@media (max-width: 360px){
+  .header-cta{ flex-direction: column; align-items: stretch; }
+  .header-cta .btn{ width: 100%; }
+}
+
+/* ============================================================
+   7. BREADCRUMB COMPONENT
+   ============================================================ */
+.breadcrumb{ padding-block: var(--sp-2); border-bottom: 1px solid var(--c-line); }
+.breadcrumb ol{ display: flex; flex-wrap: wrap; gap: 0.4rem; font-size: var(--fs-small); color: var(--c-ink-soft); }
+.breadcrumb li:not(:last-child)::after{ content: "/"; margin-left: 0.4rem; color: var(--c-line); }
+.breadcrumb a:hover{ color: var(--c-ink); }
+.breadcrumb li:last-child{ color: var(--c-ink); }
+
+/* ============================================================
+   8. SECTION-HEADING COMPONENT
+   ============================================================ */
+.section-heading{ max-width: 640px; margin-bottom: var(--sp-4); }
+.section-heading p{ margin-top: var(--sp-1); }
+.section-heading.center{ margin-inline: auto; text-align: center; }
+
+/* ============================================================
+   9. CARD COMPONENT (generic, reusable)
+   ============================================================ */
+.card{
+  background: var(--c-surface);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  padding: var(--sp-3);
+}
+.card h3{ margin-bottom: var(--sp-1); }
+.card p{ margin-bottom: 0; }
+
+/* ============================================================
+   10. PRODUCT-CARD COMPONENT
+   ============================================================ */
+.product-card{
+  background: var(--c-surface);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.product-card .thumb{
+  aspect-ratio: 4/3;
+  background: var(--c-bg-alt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--c-ink-soft);
+  font-size: var(--fs-small);
+  border-bottom: 1px solid var(--c-line);
+}
+.product-card .body{ padding: var(--sp-3); flex: 1; display: flex; flex-direction: column; }
+.product-card .category{ font-size: var(--fs-small); color: var(--c-ink-soft); margin-bottom: 0.25rem; }
+.product-card h3{ margin-bottom: var(--sp-1); }
+.product-card .meta{ margin-top: auto; padding-top: var(--sp-2); border-top: 1px solid var(--c-line); font-size: var(--fs-small); color: var(--c-ink-soft); }
+
+/* ============================================================
+   11. ENQUIRY-CTA COMPONENT (reusable banner)
+   ============================================================ */
+.enquiry-cta{
+  background: var(--c-accent);
+  color: #FFFFFF;
+  border-radius: var(--radius);
+  padding: var(--sp-5) var(--sp-4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+.enquiry-cta h2{ color: #FFFFFF; font-size: var(--fs-h2); max-width: 30ch; }
+.enquiry-cta .btn-primary{ background: #FFFFFF; color: var(--c-accent); border-color: #FFFFFF; }
+.enquiry-cta .btn-primary:hover{ background: var(--c-accent-warm); border-color: var(--c-accent-warm); color: #FFFFFF; }
+
+/* ============================================================
+   12. FOOTER COMPONENT
+   ============================================================ */
+.site-footer{ background: var(--c-bg-alt); border-top: 1px solid var(--c-line); padding-block: var(--sp-5) var(--sp-4); }
+.footer-top{ display: grid; grid-template-columns: 1.4fr repeat(3, 1fr); gap: var(--sp-4); margin-bottom: var(--sp-5); }
+.footer-brand .logo{ margin-bottom: var(--sp-2); }
+.footer-brand p{ font-size: var(--fs-small); max-width: 34ch; }
+.footer-col h3{ font-size: 0.95rem; margin-bottom: var(--sp-2); }
+.footer-col ul{ display: flex; flex-direction: column; gap: 0.6rem; }
+.footer-col a{ font-size: var(--fs-small); color: var(--c-ink-soft); }
+.footer-col a:hover{ color: var(--c-ink); }
+.footer-contact li{ font-size: var(--fs-small); color: var(--c-ink-soft); margin-bottom: 0.4rem; }
+.footer-bottom{
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--sp-2);
+  padding-top: var(--sp-3); border-top: 1px solid var(--c-line);
+  font-size: var(--fs-small); color: var(--c-ink-soft);
+}
+.footer-bottom ul{ display: flex; gap: var(--sp-3); flex-wrap: wrap; }
+.footer-bottom a:hover{ color: var(--c-ink); }
+
+@media (max-width: 1024px){
+  .footer-top{ grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px){
+  .footer-top{ grid-template-columns: 1fr; gap: var(--sp-3); }
+  .enquiry-cta{ flex-direction: column; align-items: flex-start; }
+}
+
+/* ============================================================
+   13. HOME (PHASE 1 PLACEHOLDER) LAYOUT
+   ============================================================ */
+.hero{ padding-block: var(--sp-6) var(--sp-5); }
+.hero .container{ max-width: 780px; }
+.hero p.lede{ font-size: 1.1rem; margin-top: var(--sp-2); }
+.hero .actions{ display: flex; gap: var(--sp-2); margin-top: var(--sp-4); flex-wrap: wrap; }
+@media (max-width: 768px){
+  .hero{ padding-block: var(--sp-4) var(--sp-3); }
+  .hero .actions .btn{ flex: 1 1 auto; }
+}
+
+.feature-row{ display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); }
+.feature-row .feature{ padding-top: var(--sp-3); border-top: 1px solid var(--c-line); }
+.feature h3{ margin-bottom: var(--sp-1); }
+.feature p{ margin-bottom: 0; font-size: var(--fs-small); }
+@media (max-width: 768px){ .feature-row{ grid-template-columns: 1fr; } }
+
+.dev-note{
+  border: 1px dashed var(--c-line);
+  background: var(--c-surface);
+  padding: var(--sp-2) var(--sp-3);
+  font-size: var(--fs-small);
+  color: var(--c-ink-soft);
+  border-radius: var(--radius);
+  margin-bottom: var(--sp-3);
+}
+
+/* ============================================================
+   14. WHATSAPP FLOATING BUTTON
+   Fixed, site-wide entry point, visible on every screen size.
+   ============================================================ */
+.whatsapp-float{
+  position: fixed;
+  right: var(--sp-3);
+  bottom: var(--sp-3);
+  z-index: 90;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--c-whatsapp);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(37, 211, 102, 0.4);
+  transition: background-color 150ms ease, transform 150ms ease;
+}
+.whatsapp-float:hover{ background: var(--c-whatsapp-dark); transform: translateY(-2px); }
+.whatsapp-float svg{ width: 28px; height: 28px; }
+@media (max-width: 480px){
+  .whatsapp-float{ width: 50px; height: 50px; right: var(--sp-2); bottom: var(--sp-2); }
+  .whatsapp-float svg{ width: 24px; height: 24px; }
+}
+
+</style>
+
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="site-header" id="siteHeader">
+  <div class="container">
+    <a href="/" class="logo">
+      <svg class="logo-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="14" cy="14" r="7.5" fill="var(--c-bg)" stroke="currentColor" stroke-width="1.6"/>
+        <circle cx="24" cy="11" r="7" fill="var(--c-bg)" stroke="currentColor" stroke-width="1.6"/>
+        <circle cx="27" cy="20" r="6.5" fill="var(--c-bg)" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M20 22C20 22 19 30 20 35" stroke="var(--c-accent-warm)" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M20 25C17.5 25 15.5 26.5 14.5 29" stroke="var(--c-accent-warm)" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+        <path d="M20 27C22.5 27 24.5 28.5 25.5 31" stroke="var(--c-accent-warm)" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+      </svg>
+      COTTONS
+    </a>
+
+    <div class="header-cta">
+      <a href="https://drive.google.com/file/d/19RQPXFqOzHjsaUksglD1H5TlF3-NTXBS/view?usp=drive_link" class="btn btn-catalog">Download Catalog</a>
+      <a href="https://wa.me/447867018199?text=Hi%2C%20I%27d%20like%20to%20request%20wholesale%20pricing%20from%20COTTONS." class="btn btn-primary">Request Wholesale Pricing</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============================================================
+       HERO — real brand positioning, no fake content
+       ============================================================ -->
+  <section class="hero">
+    <div class="container">
+      <h1>Wholesale bedding and textiles, backed by UK stock and direct manufacturing.</h1>
+      <p class="lede">COTTONS holds stock in Ilford, UK, and manufactures directly in Pakistan — supplying wholesalers, retailers and online sellers worldwide.</p>
+      <div class="actions">
+        <a href="https://wa.me/447867018199?text=Hi%2C%20I%27d%20like%20to%20request%20wholesale%20pricing%20from%20COTTONS." class="btn btn-primary">Request Wholesale Pricing</a>
+        <a href="/products" class="btn btn-secondary">View Products</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FEATURE ROW — built from section-heading component
+       ============================================================ -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-heading">
+        <h2>Built for wholesale buyers</h2>
+        <p>Three things buyers ask about first — stock, manufacturing and reach.</p>
+      </div>
+      <div class="feature-row">
+        <div class="feature">
+          <h3>UK Stock — Ilford</h3>
+          <p>Held stock for faster UK dispatch, without waiting on overseas shipping.</p>
+        </div>
+        <div class="feature">
+          <h3>Direct Manufacturing — Pakistan</h3>
+          <p>Factory-direct production for private label and volume orders.</p>
+        </div>
+        <div class="feature">
+          <h3>Worldwide Wholesale Supply</h3>
+          <p>Supplying wholesalers, retailers and online sellers across marketplaces and regions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       COMPONENT REFERENCE — for later phases, not public copy
+       ============================================================ -->
+  <section class="section">
+    <div class="container">
+      <div class="dev-note">Component reference below (breadcrumb, product-card, card) — placeholder content for later phases, not final catalogue copy.</div>
+
+      <div class="breadcrumb" style="margin-bottom: var(--sp-4);">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/products">Products</a></li>
+          <li>Duvet Covers</li>
+        </ol>
+      </div>
+
+      <div class="section-heading">
+        <h2>Product-card component</h2>
+        <p>Reusable card for catalogue listings, built in Phase 2.</p>
+      </div>
+      <div class="grid grid-3">
+        <div class="product-card">
+          <div class="thumb">Image placeholder</div>
+          <div class="body">
+            <div class="category">Bedding Sets</div>
+            <h3>Product name placeholder</h3>
+            <div class="meta">Wholesale enquiry only</div>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="thumb">Image placeholder</div>
+          <div class="body">
+            <div class="category">Duvet Covers</div>
+            <h3>Product name placeholder</h3>
+            <div class="meta">Wholesale enquiry only</div>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="thumb">Image placeholder</div>
+          <div class="body">
+            <div class="category">Pillowcases</div>
+            <h3>Product name placeholder</h3>
+            <div class="meta">Wholesale enquiry only</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ENQUIRY CTA COMPONENT
+       ============================================================ -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="enquiry-cta">
+        <h2>Ready to stock COTTONS?</h2>
+        <a href="https://wa.me/447867018199?text=Hi%2C%20I%27d%20like%20to%20request%20wholesale%20pricing%20from%20COTTONS." class="btn btn-primary">Request Wholesale Pricing</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo">
+          <svg class="logo-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="14" cy="14" r="7.5" fill="var(--c-bg-alt)" stroke="currentColor" stroke-width="1.6"/>
+            <circle cx="24" cy="11" r="7" fill="var(--c-bg-alt)" stroke="currentColor" stroke-width="1.6"/>
+            <circle cx="27" cy="20" r="6.5" fill="var(--c-bg-alt)" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M20 22C20 22 19 30 20 35" stroke="var(--c-accent-warm)" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M20 25C17.5 25 15.5 26.5 14.5 29" stroke="var(--c-accent-warm)" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+            <path d="M20 27C22.5 27 24.5 28.5 25.5 31" stroke="var(--c-accent-warm)" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+          </svg>
+          COTTONS
+        </div>
+        <p>Bedding and textile wholesale supply with UK stock in Ilford and direct manufacturing capability in Pakistan.</p>
+      </div>
+
+      <div class="footer-col">
+        <h3>Company</h3>
+        <ul>
+          <li><a href="/products">Products</a></li>
+          <li><a href="/wholesale">Wholesale</a></li>
+          <li><a href="/marketplace-sellers">Marketplace Sellers</a></li>
+          <li><a href="/private-label">Private Label</a></li>
+          <li><a href="/manufacturing">Manufacturing</a></li>
+          <li><a href="/about">About</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>Resources</h3>
+        <ul>
+          <li><a href="/uk-stock">UK Stock</a></li>
+          <li><a href="/product-data">Product Data</a></li>
+          <li><a href="/faq">FAQ</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>Contact</h3>
+        <ul class="footer-contact">
+          <li>UK: +44 786 701 8199</li>
+          <li><a href="mailto:query.cottons@gmail.com">query.cottons@gmail.com</a></li>
+          <li>Office 24, Alziz Centre, Factory Area, Faisalabad, Pakistan</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>&copy; 2026 COTTONS. All rights reserved.</span>
+      <ul>
+        <li><a href="/privacy-policy">Privacy Policy</a></li>
+        <li><a href="/terms">Terms</a></li>
+        <li><a href="/cookie-policy">Cookie Policy</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/447867018199" class="whatsapp-float" aria-label="Chat with COTTONS on WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.2-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.1.2-.3.2-.6.1-.3-.1-1.2-.4-2.2-1.4-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.4.1-.6l.4-.5c.1-.2.2-.3.2-.5.1-.2 0-.4 0-.5-.1-.1-.6-1.4-.8-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s1 2.5 1.1 2.6c.1.2 2 3 4.8 4.2.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.6-.7 1.9-1.3.2-.6.2-1.1.2-1.2-.1-.2-.3-.2-.6-.4z"/><path d="M12 3.3c-4.8 0-8.7 3.9-8.7 8.7 0 1.5.4 3 1.1 4.3l-1.2 4.4 4.5-1.2c1.2.7 2.6 1 4.3 1 4.8 0 8.7-3.9 8.7-8.7s-3.9-9.5-8.7-9.5zm0 15.9c-1.4 0-2.8-.4-4-1.1l-.3-.2-2.7.7.7-2.6-.2-.3c-.8-1.2-1.2-2.7-1.2-4.2 0-4 3.3-7.3 7.3-7.3s7.7 3.3 7.7 7.3-3.3 7.7-7.3 7.7z"/></svg>
+</a>
+
+
+</body>
+</html>
